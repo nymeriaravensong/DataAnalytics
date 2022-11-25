@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+plot(cars)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+Question 1:  Use the summarize() function to find the average calories across all cereals in the cereals dataset. I've included the starter code for you below!
+```{r}
+library(tidyverse)
+# Load the cereal dataset
+cereal_data <- read_csv('/Users/sabri/Downloads/cereal.csv', show_col_types=FALSE)
+
+# Display the first few rows
+head(cereal_data)
+
+glimpse(cereal_data)
+
+summarize(cereal_data, avg_calories = mean(calories))
+```
+Question 2: Use the summarize() function to find the largest sugar amount of any cereal in the cereals dataset. Hint: you will have to use max(sugars) as one argument to the summarize() function!
+```{r}
+summarize(cereal_data, max_sugar = max(sugars))
+```
+
+Question 3: Use the summarize() function to find out how many distinct cereal brands there are in this dataset. Hint: you will have to use n_distinct(mfr) as one argument to the summarize() function!
+```{r}
+summarize(cereal_data, num_brands = n_distinct(mfr))
+```
+
+Question 4: Use both filter() and summarize() to find the average calories of Kellogs brand (K) cereals. This one is a bit harder, but i'll provide the starter code for you. Remember that there are two steps we need to take!
+
+The first is to filter() our dataset to only include Kellogs brand cereals
+
+The second is to summarize() to find the average calories of the remaining rows.
+```{r}
+# First filter for only kellogs brand cereals then take average calories of remaining rows
+filter(cereal_data, mfr == "K") |> summarize(avg_kellogs_cals = mean(calories))
+```
+
+Question 5: Use both group_by() and summarize() to find the average milligrams of sodium (sodium) of each cereal type. I've provided the starter code for you below!
+```{r}
+group_by(cereal_data, mfr) |> summarize(mean(sodium))
+```
+Question 6 (optional - advanced): Which brand has the highest calorie cold cereal?
+
+Hint: This requires a filter(), a group_by(), a summarize(), and an optional arrange(). Remember that you can combine all these operations together with the pipe operator (|>).
+```{r}
+filter(cereal_data, type =="C") |> group_by(highcal_cold = calories) |> arrange(desc(highcal_cold))
+```
+
