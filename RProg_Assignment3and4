@@ -1,6 +1,6 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output: pdf_document
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
@@ -59,5 +59,58 @@ Question 6 (optional - advanced): Which brand has the highest calorie cold cerea
 Hint: This requires a filter(), a group_by(), a summarize(), and an optional arrange(). Remember that you can combine all these operations together with the pipe operator (|>).
 ```{r}
 filter(cereal_data, type =="C") |> group_by(highcal_cold = calories) |> arrange(desc(highcal_cold))
+```
+Assignment 4_4
+Question 1: What can you conclude from the visualization below? Write a short explanation (2-3 sentences) in the space provided below.
+Answer: P or Post cereal appears to have the most sugar on average, while N or Nabisco cereal has the lowest amount of sugar on average. Most cereals have a lot of sugar!
+```{r}
+ggplot(cereal_data, aes(x = mfr, y = sugars)) + geom_bar(stat = 'summary', fun = 'mean') + 
+  labs(title = "Average grams of sugar in cereals by brand") + 
+  xlab("Manufacturer") +
+  ylab("Avg. Sugar (grams)")
+```
+Question 2: What can you conclude from the visualization below? Write a short explanation (2-3 sentences) in the space provided below.
+Answer: Most cereals or approximately 28 cereals have between 100 to 118 calories per serving. Cereals with 40 to 80 calories per serving are uncommon as well as cereals with 150 to 160 calories per serving
+```{r}
+ggplot(cereal_data, aes(x = calories)) + geom_histogram(bins=10) + 
+  labs(title = "Histogram of Cereal Calories") + 
+  xlab("Calories Per Serving") + 
+  ylab("Count")
+```
+Question 3: What can you conclude from the visualization below? Write a short explanation (2-3 sentences) in the space provided below.
+Answer:As sugar content goes up, consumer rating goes down. If the consumer rating were based off of people with a sweet tooth that might not be the case, like children for example.
+```{r}
+# Run this code and then make your conclusions
+ggplot(cereal_data, aes(x = sugars, y = rating)) + geom_point() + 
+  geom_smooth(se = FALSE, method = 'lm', formula = 'y ~ x') + 
+  labs(title = "Scatter Plot of Sugar Content vs. Consumer Rating for 80 Cereals") + 
+  xlab("Sugar Content (Grams)") + 
+  ylab("Consumer Rating")
+```
+Question 4: Produce a scatter plot of sodium vs. rating where sodium is on the x axis and rating is on the y axis. Give the chart a suitable title using labs(title = "...")
+```{r}
+# Please fill in the blanks
+ggplot(cereal_data, aes(x = sodium, y = rating)) + geom_point() + geom_smooth(se = FALSE, method = 'lm', formula = 'y ~ x') +
+  labs(title = "Saltiness to Rating") +
+  xlab("Sodium Content (Grams)") + 
+  ylab("Consumer Rating")
+```
+Question 5: Produce a bar chart that shows the number of cereals produced by each mfr. Give the chart a suitable title using labs(title = "...")
+
+Hint: You will need to use geom_bar(stat = 'count')
+```{r}
+ggplot(cereal_data, aes(x = mfr)) + geom_bar(stat = "count") + 
+  labs(title = "Bar Chart of Cereal Types") + 
+  xlab("Calories Per Serving") + 
+  ylab("Count")
+```
+Question 6: (optional - bonus)
+
+Part 1: Generate a histogram of the sugars column. Hint: you will need to use the geom_histogram() function.
+```{r}
+ggplot(cereal_data, aes(x = sugars)) + geom_histogram(bins=10) + 
+  labs(title = "Histogram of Cereal Sugars") + 
+  xlab("Sugar Per Serving") + 
+  ylab("Count")
 ```
 
